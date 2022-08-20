@@ -24,7 +24,7 @@ namespace Api.Mappings
             builder.Property(x => x.DataExclusao)
                 .HasColumnType("datetime");
 
-            builder.ToTable("Pessoa");
+            builder.ToTable("TelefonePessoa");
         }
     }
 }

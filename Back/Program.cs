@@ -1,6 +1,7 @@
 ﻿using Api.Data;
 using Api.Interfaces;
 using Api.Repositories;
+using Api.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,20 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDbContext")));
 
-builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
-
 builder.Services.AddScoped<ApplicationDbContext>();
-
-builder.Services.AddCors(options =>
-    {
-        options.AddPolicy("Production",
-            builder =>
-                builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .WithExposedHeaders("X-Pagination"));
-    });
+builder.Services.AddScoped<IPessoaService, PessoaService>();
+builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
+builder.Services.AddScoped<IEmailPessoaRepository, EmailPessoaRepository>();
+builder.Services.AddScoped<ITelefonePessoaRepository, TelefonePessoaRepository>();
+builder.Services.AddScoped<ILogRepository, LogRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

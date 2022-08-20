@@ -9,8 +9,11 @@ namespace Api.Interfaces
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> predicate);
 
-        Task Add(T entity);
-        Task Update(T entity);
-        Task Remove(int id);
+        void Add(T entity);
+        void AddRange(List<T> entities);
+        void Update(T entity);
+        void UpdateRange(List<T> entities);
+        void Remove(int id);
+        void RemoveRange(IEnumerable<T> entities);
     }
 }

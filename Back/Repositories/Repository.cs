@@ -39,32 +39,34 @@ namespace Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task Add(T entity)
+        public void Add(T entity)
         {
             DbSet.Add(entity);
-            await Commit();
         }
 
-        public async Task Update(T entity)
+        public void AddRange(List<T> entities)
+        {
+            DbSet.AddRange(entities);
+        }
+
+        public void Update(T entity)
         {
             DbSet.Update(entity);
-            await Commit();
         }
 
-        public async Task Remove(int id)
+        public void UpdateRange(List<T> entities)
+        {
+            DbSet.UpdateRange(entities);
+        }
+
+        public void Remove(int id)
         {
             DbSet.Remove(new T { Id = id });
-            await Commit();
         }
 
-        private async Task Commit()
+        public void RemoveRange(IEnumerable<T> entities)
         {
-            await Context.SaveChangesAsync();
-        }
-
-        public void Dispose()
-        {
-            Context?.Dispose();
+            DbSet.RemoveRange(entities);
         }
     }
 }

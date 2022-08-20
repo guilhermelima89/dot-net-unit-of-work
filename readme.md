@@ -1,70 +1,34 @@
-# ANGULAR RESOLVER
+# .NET UNIT OF WORK
 
 ## Back-End
 
 - Net 6
-- Dapper
 - EF Core
 - Swagger
-- Pagination
-
-## Front-End
-
-- Angular
-- Angular Material
-- Tailwind
-- PDFMake
-- Pagination
-- Resolver
+- Unit Of Work
 
 #
 
 # Back
 
-### POC abordando conceito de paginação utilizando o header e o body para apresentar informações referente a paginação (total, pagesize, currentpage, totalpages, etc).
+### POC abordando Unit of Work, realizando atualização de dados de uma pessoa (email e telefone), porém realizando o commit no final.
 
-#
+```c#
+public async Task<bool> Update(PessoaViewModel request)
+{
+    -- OBTER PESSOA ID = 1
+    var pessoa = await _unitOfWork.PessoaRepository.GetByIdAsync(1);
 
-- Paginação retornando informações no body.
+    if (pessoa is null) return false;
 
-<img src=".docs/images/img-1.png" alt="image"/>
+    -- METODOS INTERNOS COM LOGICA
+    await AdicionarEmail(pessoa.Id, request.Email);
+    await AdicionarTelefone(pessoa.Id, request.Telefone);
+    AdicionarLog(pessoa.Nome);
 
-- Paginação retornando informações no header (x-pagination).
+    -- REALIZAR COMMIT NO BANCO DE DADOS
+    await _unitOfWork.Commit();
 
-<img src=".docs/images/img-2.png" alt="image"/>
-
-#
-
-# Front
-
-### Lógica concentrada no serviço para compartilhamento e atualização de informações (produtos).
-
-#
-
-- Lógica utilizando o componente Pai para armazenar e distribuir os dados.
-
-<img src=".docs/images/img-3.png" alt="image"/>
-
-- Lógica utilizando serviço para armazenar e distribuir os dados.
-
-<img src=".docs/images/img-4.png" alt="image"/>
-
-- Lógica utilizando resolver.
-
-<img src=".docs/images/img-5.png" alt="image"/>
-
-- Exemplo de descentralização.
-
-<img src=".docs/images/img-6.png" alt="image"/>
-
-- Página de listagem (utilizando resolver).
-
-<img src=".docs/images/img-7.png" alt="image"/>
-
-- Detalhes do produto (utilizando resolver).
-
-<img src=".docs/images/img-8.png" alt="image"/>
-
-- Exemplo de geração de PDF (PDFMake).
-
-<img src=".docs/images/img-9.png" alt="image"/>
+    return true;
+}
+```
