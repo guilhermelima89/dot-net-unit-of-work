@@ -11,7 +11,7 @@
 
 # Back
 
-### POC abordando Unit of Work, realizando atualização de dados de uma pessoa (email e telefone), porém realizando o commit no final.
+### POC abordando Unit of Work, realizando atualização de dados de uma pessoa (email e telefone), porém com commit no final.
 
 ```c#
 public async Task<bool> Update(PessoaViewModel request)
